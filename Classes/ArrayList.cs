@@ -1,3 +1,5 @@
+using System.Security.Cryptography.X509Certificates;
+
 namespace Lists.Classes;
 
 public class ArrayList
@@ -9,7 +11,7 @@ public class ArrayList
     public ArrayList()
     {
         Length = 10;
-        _array = new int[]{1,2,3,4,5,6,7,8,9,10};
+        _array = new int[]{1,2,3,1,5,6,1,80,9,10};
     }
 
     public void Add(int element)
@@ -218,6 +220,192 @@ public class ArrayList
         }
     }
 
+    public int AccesForIndex(int index)
+    {
+        int value = _array[index];
+        if (value > Length)
+        {
+            throw new IndexOutOfRangeException("Вы ввели индекс, превышающий длину массива, ошибка");
+        }
+        return value;
+    }
+    public int ChangeForIndex(int index, int value)
+    {
+        _array[index] = value;
+        if (index > Length)
+        {
+            throw new IndexOutOfRangeException("Вы ввели индекс, превышающий длину массива, ошибка");
+        }
+        return _array[index];
+    }
+    public int FirstIndexFromValue(int value)
+    {
+        int desuredIndex = 0;
+        for (int i = 0; i < _array.Length; i++)
+        {
+            if (_array[i] == value)
+            {
+                desuredIndex = i;
+                break;
+            }
+
+            if (_array[i] != value)
+            {
+                desuredIndex = -1;
+            }
+        }
+        return desuredIndex;
+    }
+
+    public void ArrayReverse()
+    {
+        int[] tmpArr = new int[Length+1];
+        int a = 0;
+        for (int i = Length; i >=0; i--)
+        {
+            tmpArr[a] = _array[i];
+            a++;
+        }
+        _array = tmpArr;
+        // UpSize();
+    }
+
+    public int FindMaxValueOfArray()
+    {
+        int max = _array[0];
+        for (int i = 0; i < Length; i++)
+        {
+            if (_array[i] > max)
+            {
+                max = _array[i];
+            }
+        }
+
+        return max;
+    }
+    public int FindMinValueOfArray()
+    {
+        int min = _array[0];
+        for (int i = 0; i < Length; i++)
+        {
+            if (_array[i] < min)
+            {
+                min = _array[i];
+            }
+        }
+
+        return min;
+    }
+    public int FindIndexofMaxValueOfArray()
+    {
+        int max = _array[0];
+        int index = 0;
+        for (int i = 0; i < Length; i++)
+        {
+            if (_array[i] > max)
+            {
+                max = _array[i];
+                index = i;
+            }
+        }
+
+        return index;
+    }
+    public int FindIndexofMinValueOfArray()
+    {
+        int min = _array[0];
+        int index = 0;
+        for (int i = 0; i < Length; i++)
+        {
+            if (_array[i] < min)
+            {
+                min = _array[i];
+                index = i;
+            }
+        }
+
+        return index;
+    }
+
+    public void SortToMin()
+    {
+        int tmp;
+        for (int i = 0; i < _array.Length; i++)
+        {
+            for (int j = 0; j < _array.Length; j++)
+            {
+                if (_array[i] > _array[j])
+                {
+                    tmp = _array[j];
+                    _array[j] = _array[i];
+                    _array[i] = tmp;
+                }
+            }
+        }
+    }
+    public void SortToMax()
+    {
+        int tmp;
+        for (int i = 0; i < _array.Length; i++)
+        {
+            for (int j = 0; j < _array.Length; j++)
+            {
+                if (_array[i] < _array[j])
+                {
+                    tmp = _array[j];
+                    _array[j] = _array[i];
+                    _array[i] = tmp;
+                }
+            }
+        }
+    }
+
+    public int DeleteByValue(int value)
+    {
+        int index = -1;
+        int[] tmpArr = new int[Length];
+        int[] tmpArr2 = new int[Length - 1];
+        for (int i = 0; i < Length; i++)
+        {
+            if (_array[i] == value)
+            {
+                index = i;
+            }
+        }
+        if (index == -1)
+        {
+            return index;
+        }
+        for (int i = 0; i < index; i++)
+        {
+            tmpArr[i] = _array[i];
+        }
+        for (int i = index+1; i < Length; i++)
+        {
+            tmpArr[i-1] = _array[i];
+        }
+        for (int i = 0; i < Length-1; i++)
+        {
+            tmpArr2[i] = tmpArr[i];
+        }
+        _array = tmpArr2;
+        Length--;
+        return index;
+    }
+
+    public int DeleteByValues(int value)
+    {
+        int count = 0;
+        for (int i = 0; i < Length; i++)
+        {
+            if (_array[i] == value)
+            {   RemoveAtIndex(i);
+                count++;
+                Length++;
+            }
+        }
+        return count;
+    }
     private void UpSize()
     {
         int NewLength = (int)(_array.Length * 1.33d + 1);
