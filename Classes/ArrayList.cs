@@ -157,16 +157,21 @@ public class ArrayList
             _array[i] = tmpArr[a];
             a++;
         }
-        
-        // a = 0;
-        // for (int i = tmpArr.Length-1; i >=0 ; i--)
-        // {
-        //     tmpArr2[a] = tmpArr[i];
-        //     a++;
-        // }
 
-        // _array = tmpArr;
-        Length = Length - value;
+        for (int i = tmp; i < _array.Length; i++)
+        {
+            _array[i] = 0;
+        }
+
+        for (int i = 0; i < tmp; i++)
+        {
+            tmpArr2[i] = _array[i];
+        }
+
+        tmpArr = tmpArr2;
+        _array = tmpArr;
+        
+        Length = tmp;
 
     }
     public void PrintArr()
