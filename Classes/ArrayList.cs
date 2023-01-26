@@ -47,6 +47,7 @@ public class ArrayList
     /// <param name="value"></param>
     public void AddToIndex(int index, int value)
     {
+        int tmpLength = Length;
         if (Length == _array.Length)
         {
             UpSize();
@@ -69,9 +70,14 @@ public class ArrayList
             tmpArr[i+1] = _array[i];
         }
         _array = tmpArr;
-        RemoveLastElement();
-        Length = _array.Length;
-        Length++;
+        if (index <= tmpLength)
+        {
+            Length = Length;
+        }
+        else
+        {
+            Length = index;
+        }
     }
     /// <summary>
     /// Удаляет первый элемент массива
@@ -173,6 +179,32 @@ public class ArrayList
         
         Length = tmp;
 
+    }
+    public void RemoveFewElementsByIndex(int index,int value)
+    {
+        if (value > _array.Length || index+value > _array.Length)
+        {
+            throw new ArgumentOutOfRangeException("Вы пытаетесь удалить больше элементов, чем есть в массиве. Ошибка");
+        }
+        int tmp = index + value;
+        int[] tmpArr = new int[_array.Length - tmp+index];
+        for (int i = 0; i < index; i++)
+        {
+            tmpArr[i] = _array[i];
+        }
+        int a = index;
+        for (int i = tmp; i < _array.Length; i++)
+        {
+            tmpArr[a] = _array[i];
+            a++;
+        }
+        _array = tmpArr;
+        Length = _array.Length;
+    }
+
+    public int ReturnLengthOfArray()
+    {
+        return Length;
     }
     public void PrintArr()
     {
