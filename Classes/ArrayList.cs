@@ -11,9 +11,12 @@ public class ArrayList
     public ArrayList()
     {
         Length = 10;
-        _array = new int[]{1,2,3,1,5,6,1,80,9,10};
+        _array = new int[]{1,2,3,1,2,6,1,80,9,10};
     }
-
+    /// <summary>
+    /// добавляет элемент в конец массива
+    /// </summary>
+    /// <param name="element"></param>
     public void Add(int element)
     {
         if (Length == _array.Length)
@@ -27,6 +30,43 @@ public class ArrayList
         _array[Length] = element;
         Length++;
     }
+    /// <summary>
+    /// Смещает массив вправо на X элементов
+    /// </summary>
+    /// <param name="moveOn"></param>
+    public void MoveOnXOnRigth(int moveOn)
+    {
+        // int a = moveTo;
+        int[] tmpArr = new int[_array.Length+moveOn];
+        for (int i = 0; i < _array.Length; i++)
+        {
+            tmpArr[moveOn] = _array[i];
+            moveOn++;
+        }
+
+        Length = Length + moveOn;
+        _array = tmpArr;
+    }
+    /// <summary>
+    /// смещает массив влево на X элементов
+    /// </summary>
+    /// <param name="moveOn"></param>
+    public void MoveOnXOnLeft(int moveOn)
+    {
+        int[] tmpArr = new int[_array.Length-moveOn];
+        for (int i = 0; i < tmpArr.Length; i++)
+        {
+            tmpArr[i] = _array[moveOn];
+            moveOn++;
+        }
+
+        Length = Length - moveOn;
+        _array = tmpArr;
+    }
+    /// <summary>
+    /// добавляет элемент в начало массива, со сдвигом
+    /// </summary>
+    /// <param name="element"></param>
     public void AddToStart(int element)
     {
         if (Length == _array.Length)
@@ -40,6 +80,7 @@ public class ArrayList
             tmpArr[i] = _array[i-1];
             _array[i-1] = tmpArr[i-1];
         }
+        _array = tmpArr;
         Length++;
     }
     /// <summary>
@@ -86,13 +127,7 @@ public class ArrayList
     /// </summary>
     public void RemoveFirstElement()
     {
-        int[] tmpArr = new int[_array.Length];
-        for (int i = 0; i < _array.Length-1; i++)
-        {
-            tmpArr[i] = _array[i+1];
-        }
-        _array = tmpArr;
-        Length--;
+        MoveOnXOnLeft(1);
     }
     /// <summary>
     /// Удаляет последний элемент массива
@@ -107,7 +142,10 @@ public class ArrayList
         _array = tmpArr;
         Length--;
     }
-
+    /// <summary>
+    ///     Удаляет элемент с указанным индексом
+    /// </summary>
+    /// <param name="index"></param>
     public void RemoveAtIndex(int index)
     {
         int[] tmpArr = new int[_array.Length];
@@ -125,7 +163,11 @@ public class ArrayList
         RemoveLastElement();
         Length--;
     }
-
+    /// <summary>
+    /// удаляет несколько последних элементов массива
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public void RemoveLastFewElements(int value)
     {
         if (value > _array.Length)
@@ -143,6 +185,11 @@ public class ArrayList
         Length = Length - value;
 
     }
+    /// <summary>
+    /// удаляет первые несколько элементов массива
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public void RemoveFirstFewElements(int value)
     {
         if (value > _array.Length)
@@ -158,30 +205,27 @@ public class ArrayList
             tmpArr[a] = _array[i];
             a++;
         }
-
-        a = 0;
-        for (int i = tmp-1; i >=0; i--)
-        {
-            _array[i] = tmpArr[a];
-            a++;
-        }
-
+        MoveOnXOnLeft(value);
         for (int i = tmp; i < _array.Length; i++)
         {
             _array[i] = 0;
         }
-
         for (int i = 0; i < tmp; i++)
         {
             tmpArr2[i] = _array[i];
         }
-
         tmpArr = tmpArr2;
         _array = tmpArr;
         
         Length = tmp;
 
     }
+    /// <summary>
+    /// удаляет несколько элементов начиная с индекса
+    /// </summary>
+    /// <param name="index"></param>
+    /// <param name="value"></param>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public void RemoveFewElementsByIndex(int index,int value)
     {
         if (value > _array.Length || index+value > _array.Length)
@@ -189,7 +233,7 @@ public class ArrayList
             throw new ArgumentOutOfRangeException("Вы пытаетесь удалить больше элементов, чем есть в массиве. Ошибка");
         }
         int tmp = index + value;
-        int[] tmpArr = new int[_array.Length - tmp+index];
+        int[] tmpArr = new int[_array.Length - value];
         for (int i = 0; i < index; i++)
         {
             tmpArr[i] = _array[i];
@@ -201,26 +245,23 @@ public class ArrayList
             a++;
         }
         _array = tmpArr;
-        Length = _array.Length;
+        Length = Length - value;
     }
-
+    /// <summary>
+    /// возвращает длину массива
+    /// </summary>
+    /// <returns>Length</returns>
     public int ReturnLengthOfArray()
     {
         return Length;
     }
-    public void PrintArr()
-    {
-        if (_array.Length == 0)
-        {
-            Console.Write("массив пустой");
-        }
-        for (int i = 0; i < _array.Length; i++)
-        {
-            Console.WriteLine($"индекс{i}" + "=" +  _array[i]);
-        }
-    }
-
-    public int AccesForIndex(int index)
+    /// <summary>
+    /// выводит значение введенного индекса
+    /// </summary>
+    /// <param name="index"></param>
+    /// <returns></returns>
+    /// <exception cref="IndexOutOfRangeException"></exception>
+    public int GetByIndex(int index)
     {
         int value = _array[index];
         if (value > Length)
@@ -229,16 +270,28 @@ public class ArrayList
         }
         return value;
     }
-    public int ChangeForIndex(int index, int value)
+    /// <summary>
+    /// меняет значение числа введенного индекса
+    /// </summary>
+    /// <param name="index"></param>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="IndexOutOfRangeException"></exception>
+    public int ChangeByIndex(int index, int value)
     {
         _array[index] = value;
-        if (index > Length)
+        if (index > Length || index < 0)
         {
-            throw new IndexOutOfRangeException("Вы ввели индекс, превышающий длину массива, ошибка");
+            throw new IndexOutOfRangeException("Вы ввели индекс, превышающий длину массива или меньше 0, ошибка");
         }
         return _array[index];
     }
-    public int FirstIndexFromValue(int value)
+    /// <summary>
+    /// находит первый индекс введенного числа
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    public int GetFirstIndexFromValue(int value)
     {
         int desuredIndex = 0;
         for (int i = 0; i < _array.Length; i++)
@@ -256,7 +309,9 @@ public class ArrayList
         }
         return desuredIndex;
     }
-
+    /// <summary>
+    /// переворачивает массив
+    /// </summary>
     public void ArrayReverse()
     {
         int[] tmpArr = new int[Length+1];
@@ -267,9 +322,11 @@ public class ArrayList
             a++;
         }
         _array = tmpArr;
-        // UpSize();
     }
-
+    /// <summary>
+    /// находит максимальное значение в массиве и возвращает его
+    /// </summary>
+    /// <returns></returns>
     public int FindMaxValueOfArray()
     {
         int max = _array[0];
@@ -283,6 +340,10 @@ public class ArrayList
 
         return max;
     }
+    /// <summary>
+    /// находит минимальное значение в массиве и возвращает его
+    /// </summary>
+    /// <returns></returns>
     public int FindMinValueOfArray()
     {
         int min = _array[0];
@@ -296,6 +357,10 @@ public class ArrayList
 
         return min;
     }
+    /// <summary>
+    /// находит индекс максимального числа в массиве и возвращает его
+    /// </summary>
+    /// <returns></returns>
     public int FindIndexofMaxValueOfArray()
     {
         int max = _array[0];
@@ -311,6 +376,10 @@ public class ArrayList
 
         return index;
     }
+    /// <summary>
+    /// находит индекс минимального числа в массиве и возвращает его
+    /// </summary>
+    /// <returns></returns>
     public int FindIndexofMinValueOfArray()
     {
         int min = _array[0];
@@ -326,7 +395,9 @@ public class ArrayList
 
         return index;
     }
-
+    /// <summary>
+    /// сортирует массив по убыванию
+    /// </summary>
     public void SortToMin()
     {
         int tmp;
@@ -343,6 +414,9 @@ public class ArrayList
             }
         }
     }
+    /// <summary>
+    /// сортирует массив по возрастанию
+    /// </summary>
     public void SortToMax()
     {
         int tmp;
@@ -359,7 +433,11 @@ public class ArrayList
             }
         }
     }
-
+    /// <summary>
+    /// удаляет первое введенное значение и возвращает его индекс
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
     public int DeleteByValue(int value)
     {
         int index = -1;
@@ -392,7 +470,11 @@ public class ArrayList
         Length--;
         return index;
     }
-
+    /// <summary>
+    /// удаляет введенное значение во всем массиве, возвращает их количество
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
     public int DeleteByValues(int value)
     {
         int count = 0;
@@ -406,6 +488,23 @@ public class ArrayList
         }
         return count;
     }
+    /// <summary>
+    /// выводит массив в консоль
+    /// </summary>
+    public void PrintArr()
+    {
+        if (_array.Length == 0)
+        {
+            Console.Write("массив пустой");
+        }
+        for (int i = 0; i < _array.Length; i++)
+        {
+            Console.WriteLine($"индекс{i}" + "=" +  _array[i]);
+        }
+    }
+    /// <summary>
+    /// увеличивает размер массива на оптимальное значение
+    /// </summary>
     private void UpSize()
     {
         int NewLength = (int)(_array.Length * 1.33d + 1);
