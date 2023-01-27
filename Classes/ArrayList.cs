@@ -103,16 +103,27 @@ public class ArrayList
             }
         }
         int[] tmpArr = new int[_array.Length+1];
-        for (int i = 0; i < _array[index]; i++)
+        if (index > Length)
         {
-            tmpArr[i] = _array[i];
-        }
-        tmpArr[index] = value;
-        for (int i = index; i < _array.Length; i++)
+            tmpArr[index] = value;
+            for (int i = 0; i < index; i++)
+            {
+                tmpArr[i] = _array[i];
+            }
+            _array = tmpArr;
+        } else
         {
-            tmpArr[i+1] = _array[i];
+            for (int i = 0; i < _array[index]; i++)
+            {
+                tmpArr[i] = _array[i];
+            }
+            tmpArr[index] = value;
+            for (int i = index; i < _array.Length; i++)
+            {
+                tmpArr[i+1] = _array[i];
+            }
+            _array = tmpArr;
         }
-        _array = tmpArr;
         if (index <= tmpLength)
         {
             Length = Length;
@@ -121,6 +132,7 @@ public class ArrayList
         {
             Length = index;
         }
+        Length++;
     }
     /// <summary>
     /// Удаляет первый элемент массива
@@ -279,6 +291,10 @@ public class ArrayList
     /// <exception cref="IndexOutOfRangeException"></exception>
     public int ChangeByIndex(int index, int value)
     {
+        if (index > Length)
+        {
+            throw new IndexOutOfRangeException("введенный индекс больше длинны массива");
+        }
         _array[index] = value;
         if (index > Length || index < 0)
         {
@@ -501,6 +517,7 @@ public class ArrayList
         {
             Console.WriteLine($"индекс{i}" + "=" +  _array[i]);
         }
+        Console.WriteLine($"длинна массива = {Length}");
     }
     /// <summary>
     /// увеличивает размер массива на оптимальное значение
@@ -517,7 +534,5 @@ public class ArrayList
 
         _array = tempArray;
     }
-    
-
 }
 
