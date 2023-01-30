@@ -1,17 +1,40 @@
 using System.Security.Cryptography.X509Certificates;
 
 namespace Lists.Classes;
-
 public class ArrayList
 {
     public int Length { get; private set; }
 
     public int[] _array;
 
+    public int this[int index]
+    {
+        get
+        {
+            return _array[index];
+        }
+        set
+        {
+            _array[index] = value;
+        }
+    }
+
     public ArrayList()
     {
         Length = 10;
         _array = new int[]{1,2,3,1,2,6,1,80,9,10};
+    }
+    public ArrayList(int value)
+    {
+        Length = 1;
+        _array = new int[10];
+        _array[0] = value;
+    }
+    public ArrayList(int[] value)
+    {
+        _array = value;
+        Length = value.Length;
+        UpSize();
     }
     /// <summary>
     /// добавляет элемент в конец массива
@@ -519,6 +542,42 @@ public class ArrayList
         }
         Console.WriteLine($"длинна массива = {Length}");
     }
+
+    public override bool Equals(object obj)
+    {
+        ArrayList arrayList = (ArrayList)obj;
+        if (this.Length != arrayList.Length)
+        {
+            return false;
+        }
+
+        for (int i = 0; i < Length; i++)
+        {
+            if (this._array[i] != arrayList._array[i])
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public override string ToString()
+    {
+        string s = "";
+        for (int i = 0; i < Length; i++)
+        {
+            s += _array[i] + " ";
+        }
+
+        return s;
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
+
     /// <summary>
     /// увеличивает размер массива на оптимальное значение
     /// </summary>

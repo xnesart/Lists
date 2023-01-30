@@ -1,10 +1,10 @@
 ﻿using Lists.Classes;
 
-ArrayList arrs = new ArrayList();
+ArrayList arrs = new ArrayList(new int[] {1,3,5,6,8});
 // arrs.PrintArr();
 // arrs.AddToIndex(0,99);
 // arrs.AddToIndex(12,50);
-// arrs.AddToIndex(17,50);
+arrs.AddToIndex(17,50);
 // arrs.AddToIndex(22,50);
 // arrs.AddToIndex(18,50);
 
@@ -54,4 +54,5 @@ arrs.PrintArr();
 // Console.WriteLine(q);
 // Console.WriteLine();
 // arrs.PrintArr();
+
 Console.Read();
