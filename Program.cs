@@ -1,10 +1,13 @@
 ﻿using Lists.Classes;
 
-ArrayList arrs = new ArrayList(new int[] {1,3,5,6,8});
+// ArrayList arrs = new ArrayList(new int[] {1,3,5,6,8});
+ArrayList arrs = new ArrayList();
 // arrs.PrintArr();
-// arrs.AddToIndex(0,99);
+// arrs.Add(3);
+// arrs.Add(4);
+arrs.AddToIndex(6,66);
 // arrs.AddToIndex(12,50);
-arrs.AddToIndex(17,50);
+// arrs.AddToIndex(17,50);
 // arrs.AddToIndex(22,50);
 // arrs.AddToIndex(18,50);
 
@@ -49,10 +52,18 @@ arrs.AddToIndex(17,50);
 // arrs.DeleteByValues(1);
 // arrs.RemoveFewElementsByIndex(0,2);
 // Console.Write(arrs.Length);
-arrs.PrintArr();
+// arrs.PrintArr();
 // int q = arrs.ReturnLengthOfArray();
 // Console.WriteLine(q);
 // Console.WriteLine();
-// arrs.PrintArr();
+arrs.PrintArr();
 
+LinkedList linkedList = new LinkedList(new int[] {1,2,3,4,5});
+//
+// Console.WriteLine(linkedList[2]);
+// linkedList[2] = 10;
+// Console.WriteLine(linkedList[2]);
+// linkedList.Add(2);
+linkedList.RemoveLast();
+linkedList.PrintList(new int[]{1,2,3,4,5});
 Console.Read();

@@ -136,7 +136,7 @@ public class ArrayList
             _array = tmpArr;
         } else
         {
-            for (int i = 0; i < _array[index]; i++)
+            for (int i = 0; i < index; i++)
             {
                 tmpArr[i] = _array[i];
             }
