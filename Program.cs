@@ -56,7 +56,7 @@ ArrayList arrs = new ArrayList();
 // int q = arrs.ReturnLengthOfArray();
 // Console.WriteLine(q);
 // Console.WriteLine();
-arrs.PrintArr();
+// arrs.PrintArr();
 
 LinkedList linkedList = new LinkedList(new int[] {1,2,3,4,5});
 //
@@ -64,6 +64,10 @@ LinkedList linkedList = new LinkedList(new int[] {1,2,3,4,5});
 // linkedList[2] = 10;
 // Console.WriteLine(linkedList[2]);
 // linkedList.Add(2);
-linkedList.RemoveLast();
-linkedList.PrintList(new int[]{1,2,3,4,5});
+linkedList.AddFirst(2);
+// linkedList.RemoveFirst();
+// linkedList.AddByIndex(1,77);
+
+// linkedList.RemoveLast();
+linkedList.PrintList();
 Console.Read();

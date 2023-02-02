@@ -76,22 +76,51 @@ public class LinkedList
         //пишем, что конец теперь - это последний элемент(переходим с бывшего конечного к следующему)
         _tail = _tail.Next;
     }
+    public void AddFirst(int value)
+    {
+        Length++;
+        Node tmp = new Node(value);
+        tmp.Next = _root;
+        _root = tmp;
+    }
+    public void AddByIndex(int value, int index)
+    {
+        if (index > this.Length)
+        {
+            for (int i = this.Length; i < index; i++)
+            {
+                Add(0);
+            }
+        }
 
+        if (index < 0)
+        {
+            throw new IndexOutOfRangeException("Вы ввели отрицательный индекс, ошибка");
+        }
+        Node current = _root;
+        for (int i = 1; i < index; i++)
+        {
+            current = current.Next;
+        }
+        Node tmp = new Node(value);
+        tmp.Next = current.Next;
+        current.Next = tmp;
+        Length++;
+    }
     public void RemoveFirst()
     {
         _root = _root.Next;
     }
     public void RemoveLast()
     {
-        // Node current = _root;
-        // for (int i = 1; i < _tail; i++)
-        // {
-        //     current = current.Next;
-        // }
+        Node current = _root;
+        for (int i = 1; i < this.Length; i++)
+        {
+            current = current.Next;
+        }
 
-        // _tail = current;
+        _tail = current;
     }
-
     public void RemoveByIndex(int index)
     {
         Node current = _root;
@@ -106,12 +135,12 @@ public class LinkedList
         Length--;
     }
 
-    public void PrintList(int[] values)
+    public void PrintList()
     {
         
-        for (int i = 0; i < values.Length; i++)
+        for (int i = 0; i < this.Length; i++)
         {
-            Console.WriteLine(values[i]);
+            Console.WriteLine(this[i]);
         }
     }
     private int GetNodeByIndex(int index)
