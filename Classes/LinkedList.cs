@@ -135,6 +135,35 @@ public class LinkedList
         Length--;
     }
 
+    public void RemoveFewElementFromStart(int value)
+    {
+        Node current = _root;
+        for (int i = 1; i < value; i++)
+        {
+            current = current.Next;
+        }
+
+        _root = current.Next;
+        Length = Length - value;
+
+    }
+    public void RemoveFewElementsFromEnd(int value)
+    {
+        Node current = _root;
+        int end = Length - value;
+        for (int i = 1; i < end; i++)
+        {
+            current = current.Next;
+        }
+
+        _tail=current;
+        Length = Length - value;
+    }
+
+    public void RemoveFewElementsByIndex(int index)
+    {
+        
+    }
     public void PrintList()
     {
         
