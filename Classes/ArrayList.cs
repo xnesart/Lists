@@ -154,8 +154,9 @@ public class ArrayList
         else
         {
             Length = index;
+            Length++;
         }
-        Length++;
+        
     }
     /// <summary>
     /// Удаляет первый элемент массива
@@ -353,9 +354,9 @@ public class ArrayList
     /// </summary>
     public void ArrayReverse()
     {
-        int[] tmpArr = new int[Length+1];
+        int[] tmpArr = new int[Length];
         int a = 0;
-        for (int i = Length; i >=0; i--)
+        for (int i = Length-1; i >=0; i--)
         {
             tmpArr[a] = _array[i];
             a++;
@@ -487,6 +488,7 @@ public class ArrayList
             if (_array[i] == value)
             {
                 index = i;
+                break;
             }
         }
         if (index == -1)
