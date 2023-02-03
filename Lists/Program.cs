@@ -69,7 +69,11 @@ LinkedList linkedList = new LinkedList(new int[] {1,2,3,4,5,6,7});
 // linkedList.AddByIndex(1,77);
 
 // linkedList.RemoveLast();
-linkedList.RemoveFewElementFromStart(2);
+// linkedList.RemoveFewElementFromStart(2);
 // linkedList.RemoveFewElementsFromEnd(2);
+// linkedList.RemoveFewElementsByIndex(2, 3);
+// int index = linkedList.ReturnFirstIndexByValue(7);
+// Console.WriteLine(index);
+linkedList.ListReverse();
 linkedList.PrintList();
 Console.Read();

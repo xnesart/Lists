@@ -110,6 +110,7 @@ public class LinkedList
     public void RemoveFirst()
     {
         _root = _root.Next;
+        Length--;
     }
     public void RemoveLast()
     {
@@ -120,6 +121,7 @@ public class LinkedList
         }
 
         _tail = current;
+        Length--;
     }
     public void RemoveByIndex(int index)
     {
@@ -160,9 +162,64 @@ public class LinkedList
         Length = Length - value;
     }
 
-    public void RemoveFewElementsByIndex(int index)
+    public void RemoveFewElementsByIndex(int index, int value)
     {
-        
+        Node current = _root;
+        for (int i = 1; i < index; i++)
+        {
+            current = current.Next;
+        }
+        Node tmp = current.Next;
+        for (int i = index; i < index+value-1; i++)
+        {
+            tmp = tmp.Next;
+        }
+
+        current.Next = tmp.Next;
+        Length = Length - value;
+    }
+
+    public int ReturnFirstIndexByValue(int value)
+    {
+        int tmp = -1;
+        if (_root.Value == value)
+        {
+            tmp = 0;
+        } else if (_tail.Value == value)
+        {
+            tmp = this.Length;
+        }
+        Node current = _root;
+        for (int i = 1; i < Length; i++)
+        {
+            current = current.Next;
+            if (current.Value == value)
+            {
+                tmp = i;
+            }
+        }
+
+        return tmp;
+    }
+
+    public void ListReverse()
+    {
+        Node current = _root;
+        Node tmp = _tail;
+        for (int i = 1; i < this.Length; i++)
+        {
+            current = current.Next;
+            for (int j = Length; j > 0; j--)
+            {
+                
+                tmp.Next = current;
+            }
+        }
+        // for (int j = this.Length; j > 0; j--)
+        // {
+        //     tmp.Next = tmp;
+        // }
+
     }
     public void PrintList()
     {
