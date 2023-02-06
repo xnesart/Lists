@@ -1,5 +1,6 @@
 ﻿using Lists.Classes;
 
+
 // ArrayList arrs = new ArrayList(new int[] {1,3,5,6,8});
 ArrayList arrs = new ArrayList();
 // arrs.PrintArr();
@@ -58,7 +59,8 @@ ArrayList arrs = new ArrayList();
 // Console.WriteLine();
 // arrs.PrintArr();
 
-LinkedList linkedList = new LinkedList(new int[] {1,2,3,4,5,6,7});
+LinkedList linkedList = new LinkedList(new int[] {1,2,3,8,4,5,6,3,7});
+// LinkedList linkedList = new LinkedList(new int[] {0,0,0,0,0,0,0});
 //
 // Console.WriteLine(linkedList[2]);
 // linkedList[2] = 10;
@@ -74,6 +76,23 @@ LinkedList linkedList = new LinkedList(new int[] {1,2,3,4,5,6,7});
 // linkedList.RemoveFewElementsByIndex(2, 3);
 // int index = linkedList.ReturnFirstIndexByValue(7);
 // Console.WriteLine(index);
-linkedList.ListReverse();
+// int max = linkedList.FindMaxValue();
+// Console.WriteLine("макс значение = " + max);
+// int min = linkedList.FindMinValue();
+// Console.WriteLine("мин значение = " + min);
+// int index = linkedList.FindIndexOfMaxValue();
+// Console.WriteLine("индекс = " + index);
+// int index = linkedList.FindIndexOfMinValue();
+// Console.WriteLine("индекс = " + index);
+// linkedList.ListReverse();
+// linkedList.SortToMin();
+// int index = linkedList.DeleteByValueReturnIndex(3);
+// Console.WriteLine(index);
+// int count = linkedList.DeleteByValuesReturnCount(3);
+// Console.WriteLine(count);
+// linkedList.AddFirst(2);
+// linkedList.Add(23);
+// Console.WriteLine("count = "+ count);
+// linkedList.SortToMax();
 linkedList.PrintList();
 Console.Read();

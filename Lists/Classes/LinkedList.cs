@@ -71,6 +71,10 @@ public class LinkedList
     {
         //увеличиваем длину на 1
         Length++;
+        if (_root == null)
+        {
+            _root = new Node(value);
+        }
         //обращаемся к концу, к полю нэкст, и создаем новую ноду со значением value
         _tail.Next = new Node(value);
         //пишем, что конец теперь - это последний элемент(переходим с бывшего конечного к следующему)
@@ -204,23 +208,209 @@ public class LinkedList
 
     public void ListReverse()
     {
+        Node start = _root, n = null;
+        while (start != null) {
+            Node tmp = start.Next;
+            start.Next = n;
+            n = start;
+            start = tmp;
+        }
+        _root = n;
+        
+        // Node tmp = _root;
+        // Node current = _tail;
+        // for (int i = 1; i < this.Length; i++)
+        // {
+        //     tmp = tmp.Next;
+        //     for (int j = this.Length - 1; j > 0; j--)
+        //     {
+        //         current.Next = tmp;
+        //     }
+        // }
+        
+        
+    }
+
+    public int FindMaxValue()
+    {
         Node current = _root;
-        Node tmp = _tail;
-        for (int i = 1; i < this.Length; i++)
+        int tmp = _root.Value;
+        for (int i = 1; i < this.Length ;i++)
         {
             current = current.Next;
-            for (int j = Length; j > 0; j--)
+            if (current.Value > tmp)
             {
-                
-                tmp.Next = current;
+                tmp = current.Value;
             }
         }
-        // for (int j = this.Length; j > 0; j--)
-        // {
-        //     tmp.Next = tmp;
-        // }
 
+        return tmp;
     }
+    public int FindMinValue()
+    {
+        Node current = _root;
+        int tmp = _root.Value;
+        for (int i = 1; i < this.Length ;i++)
+        {
+            current = current.Next;
+            if (current.Value < tmp)
+            {
+                tmp = current.Value;
+            }
+        }
+        return tmp;
+    }
+    public int FindIndexOfMaxValue()
+    {
+        Node current = _root;
+        int tmp = _root.Value;
+        int index = 0;
+        for (int i = 1; i < this.Length ;i++)
+        {
+            current = current.Next;
+            if (current.Value > tmp)
+            {
+                tmp = current.Value;
+                index = i;
+            }
+        }
+
+        return index;
+    }
+    public int FindIndexOfMinValue()
+    {
+        Node current = _root;
+        int tmp = _root.Value;
+        int index = 0;
+        for (int i = 1; i < this.Length ;i++)
+        {
+            current = current.Next;
+            if (current.Value < tmp)
+            {
+                tmp = current.Value;
+                index = i;
+            }
+        }
+
+        return index;
+    }
+
+    public void SortToMin()
+    {
+        Node current = _root;
+        int[] arr = new int[this.Length];
+        int tmp;
+        for (int i = 1; i < this.Length; i++)
+        {
+            tmp = current.Value;
+            arr[i-1] = tmp;
+            current = current.Next;
+        }
+        arr[Length-1] = _tail.Value;
+        for (int i = 0; i < arr.Length; i++)
+        {
+            for (int j = 0; j < arr.Length; j++)
+            {
+                if (arr[i] > arr[j])
+                {
+                    tmp = arr[j];
+                    arr[j] = arr[i];
+                    arr[i] = tmp;
+                }
+            }
+        }
+
+        current = _root;
+        for (int i = 1; i < this.Length; i++)
+        {
+            current.Value = arr[i-1];
+            current = current.Next;
+        }
+
+        _tail.Value = arr[Length-1];
+    }
+    
+    public void SortToMax()
+    {
+        Node current = _root;
+        int[] arr = new int[this.Length];
+        int tmp;
+        for (int i = 1; i < this.Length; i++)
+        {
+            tmp = current.Value;
+            arr[i-1] = tmp;
+            current = current.Next;
+        }
+        arr[Length-1] = _tail.Value;
+        for (int i = 0; i < arr.Length; i++)
+        {
+            for (int j = 0; j < arr.Length; j++)
+            {
+                if (arr[i] < arr[j])
+                {
+                    tmp = arr[j];
+                    arr[j] = arr[i];
+                    arr[i] = tmp;
+                }
+            }
+        }
+
+        current = _root;
+        for (int i = 1; i < this.Length; i++)
+        {
+            current.Value = arr[i-1];
+            current = current.Next;
+        }
+
+        _tail.Value = arr[Length-1];
+    }
+
+    public int DeleteByValueReturnIndex(int value)
+    {
+        Node current = _root;
+        int index = -1;
+        Node tmp;
+        if (_root.Value == value)
+        {
+            _root = _root.Next;
+            Length--;
+            return index = 0;
+        }
+        
+        for (int i = 0; i < Length; i++)
+        {
+            tmp = current;
+            current = current.Next;
+            if (current == null)
+            {
+                break;
+            }
+            if (current.Value == value)
+            {
+                index = i;
+                tmp.Next = tmp.Next.Next;
+                Length--;
+                break;
+            }
+        }
+        
+        return index;
+    }
+    public int DeleteByValuesReturnCount(int value)
+    {
+        int oldLength = Length;
+        int i = 0;
+        while (i < oldLength)
+        {
+            i++;
+            DeleteByValueReturnIndex(value);
+        }
+
+        int newLength = Length;
+        int count = oldLength - newLength;
+        return count;
+    }
+
     public void PrintList()
     {
         
