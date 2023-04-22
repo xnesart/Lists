@@ -37,7 +37,6 @@ public class LinkedList
         _root = null;
         _tail = null;
     }
-    //здесь нода из 1го элемента, поэтому tail = root; В итоге и tail и root будут ссылаться на одну и ту же ноду.
     public LinkedList(int value)
     {
         Length = 1;
@@ -54,12 +53,11 @@ public class LinkedList
             _tail = _root;
             for (int i = 1; i < values.Length; i++)
             {
-                //в поле, где у хвоста есть следующий элемент, кладем новую ноду.
                 _tail.Next = new Node(values[i]);
                 _tail = _tail.Next;
             }
         }
-        else //если длина массива равна 0, создаем пустой список
+        else
         {
             _root = null;
             _tail = null;
@@ -74,11 +72,13 @@ public class LinkedList
         if (_root == null)
         {
             _root = new Node(value);
+            _tail = _root;
         }
-        //обращаемся к концу, к полю нэкст, и создаем новую ноду со значением value
-        _tail.Next = new Node(value);
-        //пишем, что конец теперь - это последний элемент(переходим с бывшего конечного к следующему)
-        _tail = _tail.Next;
+        else
+        {
+            _tail.Next = new Node(value);
+            _tail = _tail.Next;
+        }
     }
     public void AddFirst(int value)
     {
@@ -86,44 +86,94 @@ public class LinkedList
         Node tmp = new Node(value);
         tmp.Next = _root;
         _root = tmp;
+        if (this.Length == 1)
+        {
+            _tail = _root;
+        }
     }
     public void AddByIndex(int value, int index)
     {
+        if (_root == null)
+        {
+            if (index == 0)
+            {
+                _root = new Node(value);
+            }
+            else
+            {
+                _root = new Node(0);
+                Length++;
+            }
+        }
         if (index > this.Length)
         {
-            for (int i = this.Length; i < index; i++)
+            for (int i = this.Length+1; i <= index; i++)
             {
                 Add(0);
             }
+            Node current = _root;
+            for (int i = 1; i < index; i++)
+            {
+                current = current.Next;
+            }
+            current.Value = value;
+            Length--;
         }
-
         if (index < 0)
         {
             throw new IndexOutOfRangeException("Вы ввели отрицательный индекс, ошибка");
         }
-        Node current = _root;
-        for (int i = 1; i < index; i++)
+        if (index == 0 && Length > 0)
         {
-            current = current.Next;
+            Node temp = _root;
+            _root = new Node(value);
+            _root.Next = temp;
         }
-        Node tmp = new Node(value);
-        tmp.Next = current.Next;
-        current.Next = tmp;
+        else
+        {
+            Node current = _root;
+            for (int i = 1; i < index; i++)
+            {
+                current = current.Next;
+            }
+            Node tmp = new Node(value);
+            tmp.Next = current.Next;
+            current.Next = tmp;
+            _tail = current.Next;
+        }
+
+        if (_tail.Value != this[Length])
+        {
+            Node current = _root;
+            for (int i = 1; i <= index; i++)
+            {
+                current = current.Next;
+            }
+            _tail = current.Next;
+        }
         Length++;
     }
     public void RemoveFirst()
     {
+        if (_root.Next is null)
+        {
+            _root = new Node(0);
+        }
         _root = _root.Next;
         Length--;
     }
     public void RemoveLast()
     {
+        if (_root.Next is null)
+        {
+            _root = new Node(0);
+        }
         Node current = _root;
-        for (int i = 1; i < this.Length; i++)
+        for (int i = 1; i < this.Length-1; i++)
         {
             current = current.Next;
         }
-
+        current.Next = null;
         _tail = current;
         Length--;
     }
@@ -141,7 +191,7 @@ public class LinkedList
         Length--;
     }
 
-    public void RemoveFewElementFromStart(int value)
+    public void RemoveFewElementsFromStart(int value)
     {
         Node current = _root;
         for (int i = 1; i < value; i++)
@@ -156,14 +206,13 @@ public class LinkedList
     public void RemoveFewElementsFromEnd(int value)
     {
         Node current = _root;
-        int end = Length - value;
-        for (int i = 1; i < end; i++)
+        Length = Length - value;
+        for (int i = 1; i < this.Length; i++)
         {
             current = current.Next;
         }
-
         _tail=current;
-        Length = Length - value;
+        current.Next = null;
     }
 
     public void RemoveFewElementsByIndex(int index, int value)
@@ -209,6 +258,7 @@ public class LinkedList
     public void ListReverse()
     {
         Node start = _root, n = null;
+        _tail = _root;
         while (start != null) {
             Node tmp = start.Next;
             start.Next = n;
@@ -387,7 +437,7 @@ public class LinkedList
             }
             if (current.Value == value)
             {
-                index = i;
+                index = i+1;
                 tmp.Next = tmp.Next.Next;
                 Length--;
                 break;
@@ -418,6 +468,8 @@ public class LinkedList
         {
             Console.WriteLine(this[i]);
         }
+
+        Console.WriteLine("длина списка = " +Length);
     }
     private int GetNodeByIndex(int index)
     {
@@ -449,33 +501,73 @@ public class LinkedList
         }
 
     }
-
-    public override bool Equals(object? obj)
+    public override bool Equals(object obj)
     {
         LinkedList list = (LinkedList)obj;
-        if (this.Length!=list.Length)
+        if (list == null)
         {
             return false;
         }
-
-        Node currentThis = _root;
+        if (this.Length != list.Length)
+        {
+            return false;
+        }
+        if (this.Length == 0 && list.Length == 0)
+        {
+            return true;
+        }
+        if (this._tail.Value != list._tail.Value)
+        {
+            return false;
+        }
+        if (!(this._tail.Next is null) || !(list._tail.Next is null))
+        {
+            return false;
+        }
+        Node currentThis = this._root;
         Node currentList = list._root;
-
         do
         {
             if (currentThis.Value != currentList.Value)
             {
                 return false;
             }
-            //это тот лист который нам передали
             currentList = currentList.Next;
-            //это наш лист
             currentThis = currentThis.Next;
         }
-        while (!(currentThis.Next is null));
-
+        while (!(currentThis is null));
+            
         return true;
     }
+    // public override bool Equals(object? obj)
+    // {
+    //     LinkedList list = (LinkedList)obj;
+    //     if (this.Length!=list.Length)
+    //     {
+    //         return false;
+    //     }
+    //
+    //     Node currentThis = _root;
+    //     Node currentList = list._root;
+    //
+    //     while (!(currentThis.Next is null))
+    //     {
+    //         if (currentThis.Value != currentList.Value)
+    //         {
+    //             return false;
+    //         }
+    //
+    //         currentList = currentList.Next;
+    //         currentThis = currentThis.Next;
+    //     }
+    //
+    //     if (currentList.Value != currentThis.Value)
+    //     {
+    //         return false;
+    //     }
+    //
+    //     return true;
+    // }
 
     public override int GetHashCode()
     {
